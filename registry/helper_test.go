@@ -19,6 +19,10 @@ func (t testNewFactory) ID() string {
 	return "test"
 }
 
+func (t testNewFactory) DeploymentType() deployer.DeploymentType {
+	return t.DeploymentType()
+}
+
 func (t testNewFactory) ConfigurationSchema() schema.Object {
 	return schema.NewTypedScopeSchema[testConfig](
 		schema.NewStructMappedObjectSchema[testConfig](
@@ -37,4 +41,8 @@ type testConnector struct {
 
 func (t testConnector) Deploy(_ context.Context, _ string) (deployer.Plugin, error) {
 	return nil, fmt.Errorf("not implemented")
+}
+
+func (t testConnector) DeploymentType() deployer.DeploymentType {
+	return "test"
 }

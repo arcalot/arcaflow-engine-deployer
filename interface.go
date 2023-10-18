@@ -9,12 +9,15 @@ import (
 	"go.flow.arcalot.io/pluginsdk/schema"
 )
 
+type DeploymentType string
+
 // ConnectorFactory is an abstraction that hides away the complexity of instantiating a Connector. Its main purpose is
 // to provide the configuration schema for the connector and then create an instance of said connector.
 type ConnectorFactory[ConfigType any] interface {
 	ID() string
 	ConfigurationSchema() *schema.TypedScopeSchema[ConfigType]
 	Create(config ConfigType, logger log.Logger) (Connector, error)
+	DeploymentType() DeploymentType
 }
 
 // AnyConnectorFactory is the untyped version of ConnectorFactory.
@@ -22,6 +25,7 @@ type AnyConnectorFactory interface {
 	ID() string
 	ConfigurationSchema() schema.Object
 	Create(config any, logger log.Logger) (Connector, error)
+	DeploymentType() DeploymentType
 }
 
 // Connector is responsible for deploying a container image on the specified target. Once deployed and ready, the
