@@ -21,7 +21,7 @@ func testRegistrySchemaIncorrectInput(t *testing.T) {
 	)
 	schema := r.Schema()
 
-	if _, err := schema.Unserialize(map[string]any{"type": "non-existent"}); err == nil {
+	if _, err := schema.Unserialize(map[string]any{"deployer_id": "non-existent"}); err == nil {
 		t.Fatalf("No error returned")
 	}
 
@@ -36,7 +36,7 @@ func testRegistrySchemaCorrectInput(t *testing.T) {
 	)
 	schema := r.Schema()
 
-	unserializedData, err := schema.Unserialize(map[string]any{"type": "test"})
+	unserializedData, err := schema.Unserialize(map[string]any{"deployer_id": "test"})
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}

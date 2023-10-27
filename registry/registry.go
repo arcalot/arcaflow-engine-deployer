@@ -39,7 +39,7 @@ func (r registry) Schema() schema.OneOf[string] {
 	}
 	return schema.NewOneOfStringSchema[any](
 		schemas,
-		"type",
+		"deployer_id",
 	)
 }
 
