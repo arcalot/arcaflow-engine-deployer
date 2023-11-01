@@ -1,7 +1,6 @@
 package registry_test
 
 import (
-	"go.flow.arcalot.io/deployer"
 	"testing"
 
 	"go.arcalot.io/assert"
@@ -20,9 +19,11 @@ func testRegistrySchemaIncorrectInput(t *testing.T) {
 	r := registry.New(
 		&testNewFactory{},
 	)
-	schema := r.Schema()
+	schema := r.DeployConfigSchema("test-type")
 
-	if _, err := schema.Unserialize(map[string]any{"deployer_id": "non-existent"}); err == nil {
+	if _, err := schema.Unserialize(map[string]any{
+		"deployer_name": "non-existent",
+	}); err == nil {
 		t.Fatalf("No error returned")
 	}
 
@@ -35,9 +36,11 @@ func testRegistrySchemaCorrectInput(t *testing.T) {
 	r := registry.New(
 		&testNewFactory{},
 	)
-	schema := r.Schema()
+	schema := r.DeployConfigSchema("test-type")
 
-	unserializedData, err := schema.Unserialize(map[string]any{"deployer_id": "test"})
+	unserializedData, err := schema.Unserialize(map[string]any{
+		"deployer_name": "test",
+	})
 	if err != nil {
 		t.Fatalf("Unexpected error: %v", err)
 	}
@@ -58,7 +61,8 @@ func testRegistryCreateCorrectCreation(t *testing.T) {
 	r := registry.New(
 		&testNewFactory{},
 	)
-	connector, err := r.Create(testConfig{}, log.NewTestLogger(t))
+
+	connector, err := r.Create(testDeploymentType, testConfig{}, log.NewTestLogger(t))
 	assert.NoError(t, err)
 	if _, ok := connector.(*testConnector); !ok {
 		t.Fatalf("Incorrect connector returned: %T", connector)
@@ -67,13 +71,11 @@ func testRegistryCreateCorrectCreation(t *testing.T) {
 
 func testRegistryCreateIncorrectConfigType(t *testing.T) {
 	t.Parallel()
-	type testStruct struct {
-	}
 
 	r := registry.New(
 		&testNewFactory{},
 	)
-	_, err := r.Create(testStruct{}, log.NewTestLogger(t))
+	_, err := r.Create(testDeploymentType, map[string]any{}, log.NewTestLogger(t))
 	if err == nil {
 		t.Fatalf("expected error, no error returned")
 	}
@@ -84,7 +86,7 @@ func testRegistryCreateNilConfig(t *testing.T) {
 	r := registry.New(
 		&testNewFactory{},
 	)
-	_, err := r.Create(deployer.DeploymentType("builtin"), testStruct{}, log.NewTestLogger(t))
+	_, err := r.Create(testDeploymentType, nil, log.NewTestLogger(t))
 	if err == nil {
 		t.Fatalf("expected error, no error returned")
 	}

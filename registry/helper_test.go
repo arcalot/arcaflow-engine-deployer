@@ -12,15 +12,23 @@ import (
 type testConfig struct {
 }
 
+var testConfigInput = map[string]any{
+	"test-type": map[string]any{
+		"deployer_name": "test",
+	},
+}
+
 type testNewFactory struct {
 }
+
+var testDeploymentType = deployer.DeploymentType("test-type")
 
 func (t testNewFactory) Name() string {
 	return "test"
 }
 
 func (t testNewFactory) DeploymentType() deployer.DeploymentType {
-	return t.DeploymentType()
+	return "test-type"
 }
 
 func (t testNewFactory) ConfigurationSchema() schema.Object {
@@ -43,6 +51,6 @@ func (t testConnector) Deploy(_ context.Context, _ string) (deployer.Plugin, err
 	return nil, fmt.Errorf("not implemented")
 }
 
-func (t testConnector) DeploymentType() deployer.DeploymentType {
-	return "test"
-}
+//func (t testConnector) DeploymentType() deployer.DeploymentType {
+//	return "test-type"
+//}
