@@ -50,7 +50,3 @@ type testConnector struct {
 func (t testConnector) Deploy(_ context.Context, _ string) (deployer.Plugin, error) {
 	return nil, fmt.Errorf("not implemented")
 }
-
-//func (t testConnector) DeploymentType() deployer.DeploymentType {
-//	return "test-type"
-//}
