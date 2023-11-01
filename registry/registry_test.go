@@ -1,6 +1,7 @@
 package registry_test
 
 import (
+	"go.flow.arcalot.io/deployer"
 	"testing"
 
 	"go.arcalot.io/assert"
@@ -83,7 +84,7 @@ func testRegistryCreateNilConfig(t *testing.T) {
 	r := registry.New(
 		&testNewFactory{},
 	)
-	_, err := r.Create(nil, log.NewTestLogger(t))
+	_, err := r.Create(deployer.DeploymentType("builtin"), testStruct{}, log.NewTestLogger(t))
 	if err == nil {
 		t.Fatalf("expected error, no error returned")
 	}

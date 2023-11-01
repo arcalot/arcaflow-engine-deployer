@@ -18,11 +18,11 @@ func New(factory ...deployer.AnyConnectorFactory) Registry {
 			factories[deploymentType] = category
 		}
 
-		if v, ok := category[f.ID()]; ok {
-			panic(fmt.Errorf("duplicate deployer factory ID for deployment type %s: %s (first: %T, second: %T)",
-				deploymentType, f.ID(), v, f))
+		if v, ok := category[f.Name()]; ok {
+			panic(fmt.Errorf("duplicate deployer factory Name for deployment type %s: %s (first: %T, second: %T)",
+				deploymentType, f.Name(), v, f))
 		}
-		category[f.ID()] = f
+		category[f.Name()] = f
 	}
 
 	return &registry{

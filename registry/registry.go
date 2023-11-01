@@ -47,6 +47,16 @@ func (r registry) List() map[string]schema.Object {
 	return result
 }
 
+func (r registry) Slice() []deployer.AnyConnectorFactory {
+	slc := make([]deployer.AnyConnectorFactory, 0)
+	for _, factories := range r.deployerFactories {
+		for _, factory := range factories {
+			slc = append(slc, factory)
+		}
+	}
+	return slc
+}
+
 func (r registry) DeployConfigSchema(deploymentType deployer.DeploymentType) schema.OneOf[string] {
 	schemas := make(map[string]schema.Object, len(r.deployerFactories))
 	for id, factory := range r.deployerFactories[deploymentType] {

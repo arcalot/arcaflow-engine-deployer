@@ -15,7 +15,7 @@ type testConfig struct {
 type testNewFactory struct {
 }
 
-func (t testNewFactory) ID() string {
+func (t testNewFactory) Name() string {
 	return "test"
 }
 
