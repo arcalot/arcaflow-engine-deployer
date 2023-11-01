@@ -12,11 +12,23 @@ import (
 type testConfig struct {
 }
 
+var testConfigInput = map[string]any{
+	"test-type": map[string]any{
+		"deployer_name": "test",
+	},
+}
+
 type testNewFactory struct {
 }
 
-func (t testNewFactory) ID() string {
+var testDeploymentType = deployer.DeploymentType("test-type")
+
+func (t testNewFactory) Name() string {
 	return "test"
+}
+
+func (t testNewFactory) DeploymentType() deployer.DeploymentType {
+	return "test-type"
 }
 
 func (t testNewFactory) ConfigurationSchema() schema.Object {

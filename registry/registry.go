@@ -13,42 +13,67 @@ import (
 type Registry interface {
 	// List lists the registered deployers with their scopes.
 	List() map[string]schema.Object
-	// Schema returns a composite schema for the registry.
-	Schema() schema.OneOf[string]
+	// DeploymentTypes returns a slice of all deployment types in the registry.
+	DeploymentTypes() []deployer.DeploymentType
+	// DeployConfigSchema returns a composite schema for all types in the registry of that deployment type.
+	DeployConfigSchema(deploymentType deployer.DeploymentType) schema.OneOf[string]
 	// Create creates a connector with the given configuration type. The registry must identify the correct deployer
 	// based on the type passed.
-	Create(config any, logger log.Logger) (deployer.Connector, error)
+	Create(deploymentType deployer.DeploymentType, config any, logger log.Logger) (deployer.Connector, error)
 }
 
 type registry struct {
-	deployerFactories map[string]deployer.AnyConnectorFactory
+	deployerFactories map[deployer.DeploymentType]map[string]deployer.AnyConnectorFactory
+}
+
+func (r registry) DeploymentTypes() []deployer.DeploymentType {
+	typeList := make([]deployer.DeploymentType, len(r.deployerFactories))
+
+	i := 0
+	for k := range r.deployerFactories {
+		typeList[i] = k
+		i++
+	}
+	return typeList
 }
 
 func (r registry) List() map[string]schema.Object {
 	result := make(map[string]schema.Object, len(r.deployerFactories))
-	for id, factory := range r.deployerFactories {
-		result[id] = factory.ConfigurationSchema()
+	for _, factories := range r.deployerFactories {
+		for id, factory := range factories {
+			result[id] = factory.ConfigurationSchema()
+		}
 	}
 	return result
 }
 
-func (r registry) Schema() schema.OneOf[string] {
+func (r registry) Slice() []deployer.AnyConnectorFactory {
+	slc := make([]deployer.AnyConnectorFactory, 0)
+	for _, factories := range r.deployerFactories {
+		for _, factory := range factories {
+			slc = append(slc, factory)
+		}
+	}
+	return slc
+}
+
+func (r registry) DeployConfigSchema(deploymentType deployer.DeploymentType) schema.OneOf[string] {
 	schemas := make(map[string]schema.Object, len(r.deployerFactories))
-	for id, factory := range r.deployerFactories {
+	for id, factory := range r.deployerFactories[deploymentType] {
 		schemas[id] = factory.ConfigurationSchema()
 	}
 	return schema.NewOneOfStringSchema[any](
 		schemas,
-		"type",
+		"deployer_name",
 	)
 }
 
-func (r registry) Create(config any, logger log.Logger) (deployer.Connector, error) {
+func (r registry) Create(deploymentType deployer.DeploymentType, config any, logger log.Logger) (deployer.Connector, error) {
 	if config == nil {
 		return nil, fmt.Errorf("the deployer configuration cannot be nil")
 	}
 	reflectedConfig := reflect.ValueOf(config)
-	for _, factory := range r.deployerFactories {
+	for _, factory := range r.deployerFactories[deploymentType] {
 		if factory.ConfigurationSchema().ReflectedType() == reflectedConfig.Type() {
 			return factory.Create(config, logger)
 		}

@@ -16,8 +16,12 @@ type anyDeployerFactory[T any] struct {
 	factory ConnectorFactory[T]
 }
 
-func (a anyDeployerFactory[T]) ID() string {
-	return a.factory.ID()
+func (a anyDeployerFactory[T]) Name() string {
+	return a.factory.Name()
+}
+
+func (a anyDeployerFactory[T]) DeploymentType() DeploymentType {
+	return a.factory.DeploymentType()
 }
 
 func (a anyDeployerFactory[T]) ConfigurationSchema() schema.Object {
