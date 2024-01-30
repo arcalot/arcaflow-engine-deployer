@@ -1,21 +1,15 @@
 package registry_test
 
 import (
-	"context"
-	"fmt"
+    "context"
+    "fmt"
 
-	log "go.arcalot.io/log/v2"
-	"go.flow.arcalot.io/deployer"
-	"go.flow.arcalot.io/pluginsdk/schema"
+    log "go.arcalot.io/log/v2"
+    "go.flow.arcalot.io/deployer"
+    "go.flow.arcalot.io/pluginsdk/schema"
 )
 
 type testConfig struct {
-}
-
-var testConfigInput = map[string]any{
-	"test-type": map[string]any{
-		"deployer_name": "test",
-	},
 }
 
 type testNewFactory struct {
@@ -24,29 +18,29 @@ type testNewFactory struct {
 var testDeploymentType = deployer.DeploymentType("test-type")
 
 func (t testNewFactory) Name() string {
-	return "test"
+    return "test"
 }
 
 func (t testNewFactory) DeploymentType() deployer.DeploymentType {
-	return "test-type"
+    return "test-type"
 }
 
 func (t testNewFactory) ConfigurationSchema() schema.Object {
-	return schema.NewTypedScopeSchema[testConfig](
-		schema.NewStructMappedObjectSchema[testConfig](
-			"test",
-			map[string]*schema.PropertySchema{},
-		),
-	)
+    return schema.NewTypedScopeSchema[testConfig](
+        schema.NewStructMappedObjectSchema[testConfig](
+            "test",
+            map[string]*schema.PropertySchema{},
+        ),
+    )
 }
 
 func (t testNewFactory) Create(_ any, _ log.Logger) (deployer.Connector, error) {
-	return &testConnector{}, nil
+    return &testConnector{}, nil
 }
 
 type testConnector struct {
 }
 
 func (t testConnector) Deploy(_ context.Context, _ string) (deployer.Plugin, error) {
-	return nil, fmt.Errorf("not implemented")
+    return nil, fmt.Errorf("not implemented")
 }
