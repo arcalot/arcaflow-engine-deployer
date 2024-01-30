@@ -1,3 +1,5 @@
+// Package registry provides an interface to an aggregate of deployers,
+// and a factory for that aggregate.
 package registry
 
 import (

@@ -9,6 +9,8 @@ import (
 	"go.flow.arcalot.io/pluginsdk/schema"
 )
 
+// DeploymentType is the mechanism of deployment, such as
+// image or python.
 type DeploymentType string
 
 // ConnectorFactory is an abstraction that hides away the complexity of instantiating a Connector. Its main purpose is

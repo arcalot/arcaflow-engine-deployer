@@ -12,12 +12,6 @@ import (
 type testConfig struct {
 }
 
-var testConfigInput = map[string]any{
-	"test-type": map[string]any{
-		"deployer_name": "test",
-	},
-}
-
 type testNewFactory struct {
 }
 
