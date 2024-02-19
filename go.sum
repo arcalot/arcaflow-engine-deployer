@@ -1,5 +1,5 @@
-go.arcalot.io/assert v1.7.0 h1:PTLyeisNMUKpM9wXRDxResanBhuGOYO1xFK3v5b3FSw=
-go.arcalot.io/assert v1.7.0/go.mod h1:nNmWPoNUHFyrPkNrD2aASm5yPuAfiWdB/4X7Lw3ykHk=
+go.arcalot.io/assert v1.8.0 h1:hGcHMPncQXwQvjj7MbyOu2gg8VIBB00crUJZpeQOjxs=
+go.arcalot.io/assert v1.8.0/go.mod h1:nNmWPoNUHFyrPkNrD2aASm5yPuAfiWdB/4X7Lw3ykHk=
 go.arcalot.io/lang v1.1.0 h1:ugglRKpd3qIMkdghAjKJxsziIgHm8QpxrzZPSXoa08I=
 go.arcalot.io/lang v1.1.0/go.mod h1:2BZJO4csY7NnN/Nf1+eTdIQH4A2vxtOMneaO+PJl+Co=
 go.arcalot.io/log/v2 v2.1.0 h1:lNO931hJ82LgS6WcCFCxpLWXQXPFhOkz6PyAJ/augq4=
