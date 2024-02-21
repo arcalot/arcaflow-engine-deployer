@@ -67,6 +67,7 @@ func (r registry) DeployConfigSchema(deploymentType deployer.DeploymentType) sch
 	return schema.NewOneOfStringSchema[any](
 		schemas,
 		"deployer_name",
+		false,
 	)
 }
 
