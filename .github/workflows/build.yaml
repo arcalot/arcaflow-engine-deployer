@@ -13,9 +13,9 @@ jobs:
         uses: actions/checkout@v4
       - name: Run golangci-lint
         uses: golangci/golangci-lint-action@v4
-        args: --verbose
         with:
           version: v1.55.2
+          args: --verbose
   test:
     name: go test
     runs-on: ubuntu-latest
