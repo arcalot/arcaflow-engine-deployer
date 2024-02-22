@@ -15,7 +15,6 @@ jobs:
         uses: golangci/golangci-lint-action@v4
         with:
           version: v1.55.2
-          args: --verbose
   test:
     name: go test
     runs-on: ubuntu-latest
