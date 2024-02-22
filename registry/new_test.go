@@ -21,7 +21,7 @@ func testNewInstantiation(t *testing.T) {
 	r := registry.New(&testNewFactory{})
 	factories := r.List()
 	assert.Equals(t, len(factories), 1)
-	assert.Equals(t, factories["test"].TypeID(), schema.TypeIDScope)
+	assert.Equals[schema.TypeID](t, factories["test"].TypeID(), schema.TypeIDScope)
 }
 
 func testNewDuplicateIDs(t *testing.T) {
