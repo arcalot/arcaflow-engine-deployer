@@ -1,6 +1,6 @@
 module go.flow.arcalot.io/deployer
 
-go 1.25.0
+go 1.26.0
 
 require (
 	go.arcalot.io/assert v1.9.0
@@ -10,6 +10,6 @@ require (
 )
 
 require (
-	golang.org/x/sys v0.43.0 // indirect
-	golang.org/x/term v0.42.0 // indirect
+	golang.org/x/sys v0.49.0 // indirect
+	golang.org/x/term v0.47.0 // indirect
 )
